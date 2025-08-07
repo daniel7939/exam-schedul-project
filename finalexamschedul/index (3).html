@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Exam Portal</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
+    <script src="https://cdn.sheetjs.com/xlsx-0.19.3/package/dist/xlsx.full.min.js"></script>
+   
+  </head>
+  <body>
+    <nav id="mainNavbar" class="navbar">
+      <a class="navbar-brand" href="http://www.adu.edu.et/"
+        >ADIGRAT UNIVERSITY</a
+      >
+      <button class="navbar-toggle" id="menuToggle">☰</button>
+      <ul id="navLinks">
+        <li><a href="#" id="navHome">Home</a></li>
+        <li><a href="#" id="navAbout">About</a></li>
+        <li><a href="#" id="navContact">Contact</a></li>
+        <li><a href="#" id="navLogout">Logout</a></li>
+      </ul>
+    </nav>
+
+    <div class="login-container" id="loginContainer">
+      <div class="login-form">
+        <p>Please login to access the Exam Schedule Manager</p>
+        <h2>System Login</h2>
+        <form id="loginForm">
+          <div class="form-group">
+            <label for="departmentLogin">Department</label>
+            <select id="departmentLogin" required>
+              <option value="">Select Department/User</option>
+              <option value="Software Engineering">Software Engineering</option>
+              <option value="Computer Science">Computer Science</option>
+              <option value="Information Technology">
+                Information Technology
+              </option>
+              <option value="Student">Student</option>
+            </select>
+            <div class="error" id="departmentError"></div>
+          </div>
+          <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text" id="username" required />
+            <div class="error" id="usernameError"></div>
+          </div>
+
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" required />
+            <div class="error" id="passwordError"></div>
+          </div>
+
+          <button type="submit" class="login-btn">Login</button>
+        </form>
+      </div>
+    </div>
+
+    <div class="container hidden" id="examManager">
+      <h1>Exam Schedule Manager</h1>
+      <div class="conflict-warning" id="conflictWarning"></div>
+
+      <form action="Post.php" method="post" class="input-form">
+        <div class="header-form">
+          <div class="header-form-row">
+            <!-- Academic Year and Year Level -->
+            <input
+              type="number"
+              id="academicYear"
+              name="academicYear"
+              placeholder="Academic Year"
+              min="2000"
+              max="2100"
+              step="1"
+            />
+            <select id="yearLevel" name="yearLevel">
+              <option value="">Select Year</option>
+              <option value="1st Year">1</option>
+              <option value="2nd Year">2</option>
+              <option value="3rd Year">3</option>
+              <option value="4th Year">4</option>
+              <option value="5th Year">5</option>
+            </select>
+          </div>
+          <div class="header-form-row">
+            <!-- Semester and Department -->
+            <select id="semester" name="semester">
+              <option value="">Select Semester</option>
+              <option value="Semester 1">1</option>
+              <option value="Semester 2">2</option>
+            </select>
+            <input
+              type="text"
+              id="department"
+              name="department"
+              placeholder="Department"
+            />
+          </div>
+        </div>
+
+        <div class="schedule-header" id="scheduleHeader"></div>
+        <div class="input-form">
+          <div class="input-form-row">
+            <input
+              type="text"
+              id="course"
+              name="course"
+              placeholder="Course Name"
+              required
+            />
+            <input
+              type="text"
+              id="instructor"
+              name="instructor"
+              placeholder="Instructor Name"
+              required
+            />
+          </div>
+          <div class="input-form-row">
+            <input
+              type="datetime-local"
+              id="startTime"
+              name="startTime"
+              required
+            />
+            <input type="datetime-local" id="endTime" name="endTime" required />
+          </div>
+          <div class="input-form-row">
+            <input
+              type="text"
+              id="block"
+              name="block"
+              placeholder="Exam Block"
+              required
+            />
+            <input
+              type="text"
+              id="room"
+              name="room"
+              placeholder="Exam Room"
+              required
+            />
+          </div>
+          <button class="input-form-block" type="submit">Add Exam</button>
+        </div>
+      </form>
+
+      <div class="export-buttons">
+        <button onclick="printSchedule()">Print Schedule</button>
+        <button onclick="exportToExcel()">Export to Excel</button>
+        <button onclick="exportToPDF()">Export to PDF</button>
+      </div>
+
+      <div id="departmentSchedules"></div>
+      <!-- Show exam schedule from database -->
+    </div>
+
+   <script src="script.js"></script>
+  </body>
+</html>
